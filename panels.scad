@@ -1,38 +1,58 @@
-MONO_JACK_RADIUS = 3.6; // TODO: Confirm this
-
 EURORACK_PANEL_HEIGHT = 128.5;
 EURORACK_PANEL_THICKNESS = 2; // TODO: Confirm this
 
+EURORACK_PANEL_WIDTH_4HP = 20;
+EURORACK_PANEL_WIDTH_8HP = 40.3;
+EURORACK_PANEL_WIDTH_14HP = 70.8;
+
+EURORACK_PANEL_HOLE_RADIUS = 1.6;
+
+EURORACK_PANEL_HOLE_Y_LOWER = 3;
+EURORACK_PANEL_HOLE_Y_UPPER = EURORACK_PANEL_HEIGHT - 3;
+
 module EurorackPanel(width, holeXList)
 {
-    HOLE_RADIUS = 1.6;
-
     difference()
     {
         square([width, EURORACK_PANEL_HEIGHT]);
 
-        for (holeXPos = holeXList)
+        for (holePos = holeXList)
         {
-            translate([holeXPos, 3])
-            circle(r=HOLE_RADIUS);
+            holeXPos = holePos[0];
+            holeYPos = holePos[1];
 
-            translate([holeXPos, EURORACK_PANEL_HEIGHT - 3])
-            circle(r=HOLE_RADIUS);
+            translate([holeXPos, holeYPos])
+            circle(r=EURORACK_PANEL_HOLE_RADIUS);
         }
     }
 }
 
 module EurorackPanel_4HP()
 {
-    EurorackPanel(20, [7.5]);
+    EurorackPanel(EURORACK_PANEL_WIDTH_4HP, [
+        [7.5, EURORACK_PANEL_HOLE_Y_UPPER],
+        [7.5, EURORACK_PANEL_HOLE_Y_LOWER],
+    ]);
 }
 
 module EurorackPanel_8HP()
 {
-    EurorackPanel(39.3, [32.9]);
+    EurorackPanel(EURORACK_PANEL_WIDTH_8HP, [
+        [ 7.5, EURORACK_PANEL_HOLE_Y_LOWER],
+        [32.9, EURORACK_PANEL_HOLE_Y_UPPER],
+    ]);
 }
 
 module EurorackPanel_14HP()
 {
-    EurorackPanel(70.8, [7.5, 58.3]);
+    EurorackPanel(EURORACK_PANEL_WIDTH_14HP, [
+        [ 7.5, EURORACK_PANEL_HOLE_Y_UPPER],
+        [ 7.5, EURORACK_PANEL_HOLE_Y_LOWER],
+        [58.3, EURORACK_PANEL_HOLE_Y_UPPER],
+        [58.3, EURORACK_PANEL_HOLE_Y_LOWER],
+    ]);
 }
+
+//translate([ 0, 0, 0]) EurorackPanel_4HP();
+//translate([25, 0, 0]) EurorackPanel_8HP();
+//translate([70, 0, 0]) EurorackPanel_14HP();
