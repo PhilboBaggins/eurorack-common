@@ -1,6 +1,8 @@
 
 // Based on https://datasheet.octopart.com/35RAPC2AV-Switchcraft-datasheet-46992.pdf
 
+35RAPC2AV_JACK_RADIUS = 7 / 2;
+
 module Switchcraft35RAPC2AV_MainShape(fn)
 {
     translate([0, -7.5/2, 0])
